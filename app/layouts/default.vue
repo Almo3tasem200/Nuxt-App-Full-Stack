@@ -1,6 +1,6 @@
 <template>
     <NavigationBar />
-    <div class="flex flex-col items-center justify-center min-h-screen bg-neutral-900 text-white">
+    <div class="flex h-[80vh] flex-col items-center justify-center">
         <slot />
     </div>
 </template>

@@ -34,23 +34,30 @@ const form = reactive({
 </script>
 
 <template>
-    <div class="register-page p-4">
-        <form class="flex flex-col gap-2 items-center border-2 p-4" @submit.prevent="submitForm">
-            <title>Sign Up</title>
-            <h1 class="m-3">Sign Up</h1>
-            <div class="flex gap-2 items-center justify-center">
-                <label for="username">Username: </label>
-                <input v-model="form.username" type="text" name="username" id="username" />
+    <div class="p-4 flex justify-center items-center grow ">
+        <form
+            class="flex flex-col gap-8 items-center bg-neutral-700 p-4 border border-neutral-700 rounded-2xl shadow-md backdrop-blur-lg"
+            @submit.prevent="submitForm">
+            <div class="flex justify-center items-center">
+                <h1 class="text-4xl font-black">Sign Up</h1>
+            </div>
+            <div class="flex gap-4 flex-col">
+                <div class="flex flex-col gap-0.5 items-center justify-center">
+                    <label for="username" class="text-xs font-bold text-gray-400 uppercase">Username: </label>
+                    <input v-model="form.username" type="text" name="username" autocomplete="none" id="username" />
+                </div>
+
+                <div class="flex flex-col gap-0.5 items-center justify-center">
+                    <label for="password" class="text-xs font-bold text-gray-400 uppercase">Password: </label>
+                    <input v-model="form.password" type="password" autocomplete="none" name="password" id="password" />
+                </div>
             </div>
 
-            <div class="flex gap-2 items-center justify-center">
-                <label for="password">Password: </label>
-                <input v-model="form.password" type="password" name="password" id="password" />
+            <div class="flex w-full grow items-end">
+                <button type="submit" class="w-full">
+                    Submit
+                </button>
             </div>
-
-            <button type="submit" class="px-6!">
-                Submit
-            </button>
             <div class="flex items-center justify-center text-red-500" v-if="error">
                 {{ error }}
             </div>

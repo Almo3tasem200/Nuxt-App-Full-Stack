@@ -16,7 +16,7 @@ async function verifyAuth() {
     const token = useCookie("jwt_token");
 
     if (!token.value) {
-        return;
+        return null;
     }
 
     const result = await $fetch("/api/auth/verifytoken", {
@@ -24,7 +24,7 @@ async function verifyAuth() {
         body: { token: token.value }
     })
     if (!result.success) {
-        return;
+        return null;
     }
 
     return result.user as JwtUserInfo;
@@ -32,13 +32,15 @@ async function verifyAuth() {
 </script>
 
 <template>
-    <nav class="flex justify-between p-4 bg-neutral-800" :key="refreshKey">
-        <NuxtLink to="/">Website</NuxtLink>
-        <ul class="inline-flex gap-4">
-            <li>
+    <nav class="flex justify-between p-4 bg-neutral-800 shadow-lg backdrop-blur-md" :key="refreshKey">
+        <NuxtLink class="font-black tracking-tighter" to="/">The Best Website</NuxtLink>
+
+        <TransitionGroup tag="ul" class="inline-flex gap-4 text-sm items-center" name="fade-nav">
+
+            <li key="about">
                 <NuxtLink to="/about">About</NuxtLink>
             </li>
-            <div v-if="!user" class="inline-flex gap-4">
+            <div v-if="!user" key="guest" class="inline-flex gap-4">
                 <li>
                     <NuxtLink to="/register">Register</NuxtLink>
                 </li>
@@ -46,7 +48,7 @@ async function verifyAuth() {
                     <NuxtLink to="/login">Login</NuxtLink>
                 </li>
             </div>
-            <div v-else class="inline-flex gap-4">
+            <div v-else key="user" class="inline-flex gap-4">
                 <div class="hover:text-neutral-300 cursor-pointer" @click="logout">
                     Logout
                 </div>
@@ -54,6 +56,29 @@ async function verifyAuth() {
                     {{ user.username }}
                 </div>
             </div>
-        </ul>
+
+        </TransitionGroup>
     </nav>
 </template>
+
+<style scoped>
+.fade-nav-enter-active {
+    transition: all 0.2s ease;
+}
+
+.fade-nav-enter-from {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.fade-nav-leave-to {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+
+.fade-nav-leave-active {
+    position: absolute;
+    right: 1rem;
+}
+</style>
